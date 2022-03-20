@@ -72,7 +72,6 @@ async def process(msg, user, client, reply, replied=None):
                     width = mono.getsize(line[:43])[0] + 30
                 else:
                     width = fallback.getsize(line[:43])[0]
-            next
         else:
             text.append(line + "\n")
             if width < fallback.getsize(line)[0]:
@@ -148,7 +147,6 @@ async def process(msg, user, client, reply, replied=None):
         replname = "" if not replied.sender.last_name else replied.sender.last_name
         fname = "" if not replied.sender.first_name else replied.sender.first_name
         reptot = fname + " " + replname
-        font2.getsize(reptot)[0]
         if reply.sticker:
             sticker = await reply.download_media()
             stimg = Image.open(sticker)
@@ -205,9 +203,9 @@ async def process(msg, user, client, reply, replied=None):
         elif reply.document.size < 1048576:
             docsize = str(round(reply.document.size / 1024, 2)) + " KB "
         elif reply.document.size < 1073741824:
-            docsize = str(round(reply.document.size / 1024 ** 2, 2)) + " MB "
+            docsize = str(round(reply.document.size / 1024**2, 2)) + " MB "
         else:
-            docsize = str(round(reply.document.size / 1024 ** 3, 2)) + " GB "
+            docsize = str(round(reply.document.size / 1024**3, 2)) + " GB "
         docbglen = (
             font.getsize(docsize)[0]
             if font.getsize(docsize)[0] > font.getsize(docname)[0]
@@ -354,7 +352,7 @@ async def get_entity(msg):
     return bold, mono, italic, link
 
 
-async def doctype(name, size, type, canvas):
+async def doctype(name, size, _type, canvas):
     font = ImageFont.truetype("resources/fonts/Roboto-Medium.ttf", 38)
     doc = Image.new("RGBA", (130, 130), (29, 29, 29, 255))
     draw = ImageDraw.Draw(doc)
@@ -365,7 +363,7 @@ async def doctype(name, size, type, canvas):
     canvas.paste(doc, (160, 23))
     draw2 = ImageDraw.Draw(canvas)
     draw2.text((320, 40), name, font=font, fill="white")
-    draw2.text((320, 97), size + type, font=font, fill="#AAAAAA")
+    draw2.text((320, 97), size + _type, font=font, fill="#AAAAAA")
     return canvas
 
 
@@ -393,11 +391,10 @@ async def emoji_fetch(emoji):
         return await transparent(
             urllib.request.urlretrieve(img, "resources/emoji.png")[0]
         )
-    else:
-        img = emojis["⛔"]
-        return await transparent(
-            urllib.request.urlretrieve(img, "resources/emoji.png")[0]
-        )
+    img = emojis["⛔"]
+    return await transparent(
+        urllib.request.urlretrieve(img, "resources/emoji.png")[0]
+    )
 
 
 async def transparent(emoji):
